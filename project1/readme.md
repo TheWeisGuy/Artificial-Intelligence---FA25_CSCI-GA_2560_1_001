@@ -1,4 +1,5 @@
-This was tested on
+This was tested on Ubuntu 20.04.6 LTS
+JDK 11.0.27
 
 Extract all files to one directory
 To compile all files cd into the directory and run the following command:
