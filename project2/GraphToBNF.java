@@ -4,7 +4,7 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class GraphToCNF {
+public class GraphToBNF {
     private int numColors;
 
     /**
@@ -13,12 +13,12 @@ public class GraphToCNF {
      * @param txtFile
      * @param numColors number of colors to color the map
      */
-    public GraphToCNF(int numColors, String txtFile) {
+    public GraphToBNF(int numColors, String txtFile) {
         this.numColors = numColors;
         this.parseFile(txtFile);
     }
 
-    public GraphToCNF(int numColors) {
+    public GraphToBNF(int numColors) {
         this.numColors = numColors;
         return;
     }
@@ -50,7 +50,7 @@ public class GraphToCNF {
                     continue;
                 }
 
-                //Create a set of all vertices and all explicitly declared vertices
+                // Create a set of all vertices and all explicitly declared vertices
                 String[] currentLineSplit = currentLine.trim().split("\\s*:\\s*", 2);
                 verticesSet.add(currentLineSplit[0]);
                 declaredVerticesSet.add(currentLineSplit[0]);
@@ -64,7 +64,7 @@ public class GraphToCNF {
                 currentLine = reader.readLine();
             }
 
-            //explicitly declare all inferred vertices
+            // explicitly declare all inferred vertices
             verticesSet.removeAll(declaredVerticesSet);
             for (String vertex : verticesSet) {
                 expressions.add(vertex + " : []\n");
@@ -96,32 +96,38 @@ public class GraphToCNF {
                     currentVertexString += unitToAdd + "_" + i;
 
                     if (this.numColors > 1 && i < this.numColors - 1) {
-                        currentVertexString += " ";
+                        currentVertexString += "|";
                     }
                 }
                 parsedExpressions.add(currentVertexString + "\n");
 
                 // No adjacent same colors for every edge, distinct clause for each color
-                if (neighborsList[0]!="") {
+                if (neighborsList[0] != "") {
                     for (int i = 0; i < this.numColors; i++) {
-                        for (String neighbor : neighborsList) {
-                            String adjacentString = "!" + currentVertex + "_" + i + " !" + neighbor + "_" + i;
-                            parsedExpressions.add(adjacentString + "\n");
+                        String adjacentString = currentVertex + "_" + i + "=>![";
+                        for (int j = 0; j < neighborsList.length; j++) {
+                            adjacentString += neighborsList[j] + "_" + i;
+                            if (j < neighborsList.length - 1) {
+                                adjacentString += "|";
+                            }
                         }
+                        parsedExpressions.add(adjacentString + "]\n");
                     }
                 }
-
+                // Color(WA,R) =>¬[Color(WA,G) v Color(WA,B)]
                 // At most one color for each vertex
                 for (int i = 0; i < this.numColors; i++) {
+                    String newCurrentVertexString = currentVertex + "_" + i + "=>![";
                     for (int j = 0; j < numColors; j++) {
                         if (i != j) {
-                            String newCurrentVertexString = "";
-                            String unitToAdd = "!" + currentVertex;
-                            newCurrentVertexString += unitToAdd + "_" + i;
-                            newCurrentVertexString += " " + unitToAdd + "_" + j;
-                            parsedExpressions.add(newCurrentVertexString + "\n");
+                            newCurrentVertexString += currentVertex + "_" + j;
+                            if (j < numColors - 1 && (j + 1 != i || j + 1 < numColors - 1)) {
+                                newCurrentVertexString += "|";
+                            }
+
                         }
                     }
+                    parsedExpressions.add(newCurrentVertexString + "]\n");
                 }
 
                 // write parsed CNF to output file
@@ -138,7 +144,7 @@ public class GraphToCNF {
     }
 
     public static void main(String[] args) {
-        GraphToCNF test = new GraphToCNF(3, "triangle.txt");
+        GraphToBNF test = new GraphToBNF(3, "triangle.txt");
 
     }
 }
