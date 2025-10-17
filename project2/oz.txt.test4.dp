@@ -1,0 +1,221 @@
+WA_0 WA_1 WA_2 WA_3
+!WA_0 !NT_0
+!WA_0 !SA_0
+!WA_1 !NT_1
+!WA_1 !SA_1
+!WA_2 !NT_2
+!WA_2 !SA_2
+!WA_3 !NT_3
+!WA_3 !SA_3
+WA_0 WA_1 WA_2 WA_3
+!WA_0 !NT_0
+!WA_0 !SA_0
+!WA_1 !NT_1
+!WA_1 !SA_1
+!WA_2 !NT_2
+!WA_2 !SA_2
+!WA_3 !NT_3
+!WA_3 !SA_3
+NT_0 NT_1 NT_2 NT_3
+!NT_0 !SA_0
+!NT_0 !Q_0
+!NT_1 !SA_1
+!NT_1 !Q_1
+!NT_2 !SA_2
+!NT_2 !Q_2
+!NT_3 !SA_3
+!NT_3 !Q_3
+WA_0 WA_1 WA_2 WA_3
+!WA_0 !NT_0
+!WA_0 !SA_0
+!WA_1 !NT_1
+!WA_1 !SA_1
+!WA_2 !NT_2
+!WA_2 !SA_2
+!WA_3 !NT_3
+!WA_3 !SA_3
+NT_0 NT_1 NT_2 NT_3
+!NT_0 !SA_0
+!NT_0 !Q_0
+!NT_1 !SA_1
+!NT_1 !Q_1
+!NT_2 !SA_2
+!NT_2 !Q_2
+!NT_3 !SA_3
+!NT_3 !Q_3
+Q_0 Q_1 Q_2 Q_3
+!Q_0 !SA_0
+!Q_0 !NSW_0
+!Q_1 !SA_1
+!Q_1 !NSW_1
+!Q_2 !SA_2
+!Q_2 !NSW_2
+!Q_3 !SA_3
+!Q_3 !NSW_3
+WA_0 WA_1 WA_2 WA_3
+!WA_0 !NT_0
+!WA_0 !SA_0
+!WA_1 !NT_1
+!WA_1 !SA_1
+!WA_2 !NT_2
+!WA_2 !SA_2
+!WA_3 !NT_3
+!WA_3 !SA_3
+NT_0 NT_1 NT_2 NT_3
+!NT_0 !SA_0
+!NT_0 !Q_0
+!NT_1 !SA_1
+!NT_1 !Q_1
+!NT_2 !SA_2
+!NT_2 !Q_2
+!NT_3 !SA_3
+!NT_3 !Q_3
+Q_0 Q_1 Q_2 Q_3
+!Q_0 !SA_0
+!Q_0 !NSW_0
+!Q_1 !SA_1
+!Q_1 !NSW_1
+!Q_2 !SA_2
+!Q_2 !NSW_2
+!Q_3 !SA_3
+!Q_3 !NSW_3
+SA_0 SA_1 SA_2 SA_3
+!SA_0 !WA_0
+!SA_0 !NT_0
+!SA_0 !Q_0
+!SA_0 !NSW_0
+!SA_0 !V_0
+!SA_1 !WA_1
+!SA_1 !NT_1
+!SA_1 !Q_1
+!SA_1 !NSW_1
+!SA_1 !V_1
+!SA_2 !WA_2
+!SA_2 !NT_2
+!SA_2 !Q_2
+!SA_2 !NSW_2
+!SA_2 !V_2
+!SA_3 !WA_3
+!SA_3 !NT_3
+!SA_3 !Q_3
+!SA_3 !NSW_3
+!SA_3 !V_3
+WA_0 WA_1 WA_2 WA_3
+!WA_0 !NT_0
+!WA_0 !SA_0
+!WA_1 !NT_1
+!WA_1 !SA_1
+!WA_2 !NT_2
+!WA_2 !SA_2
+!WA_3 !NT_3
+!WA_3 !SA_3
+NT_0 NT_1 NT_2 NT_3
+!NT_0 !SA_0
+!NT_0 !Q_0
+!NT_1 !SA_1
+!NT_1 !Q_1
+!NT_2 !SA_2
+!NT_2 !Q_2
+!NT_3 !SA_3
+!NT_3 !Q_3
+Q_0 Q_1 Q_2 Q_3
+!Q_0 !SA_0
+!Q_0 !NSW_0
+!Q_1 !SA_1
+!Q_1 !NSW_1
+!Q_2 !SA_2
+!Q_2 !NSW_2
+!Q_3 !SA_3
+!Q_3 !NSW_3
+SA_0 SA_1 SA_2 SA_3
+!SA_0 !WA_0
+!SA_0 !NT_0
+!SA_0 !Q_0
+!SA_0 !NSW_0
+!SA_0 !V_0
+!SA_1 !WA_1
+!SA_1 !NT_1
+!SA_1 !Q_1
+!SA_1 !NSW_1
+!SA_1 !V_1
+!SA_2 !WA_2
+!SA_2 !NT_2
+!SA_2 !Q_2
+!SA_2 !NSW_2
+!SA_2 !V_2
+!SA_3 !WA_3
+!SA_3 !NT_3
+!SA_3 !Q_3
+!SA_3 !NSW_3
+!SA_3 !V_3
+NSW_0 NSW_1 NSW_2 NSW_3
+!NSW_0 !V_0
+!NSW_0 !SA_0
+!NSW_1 !V_1
+!NSW_1 !SA_1
+!NSW_2 !V_2
+!NSW_2 !SA_2
+!NSW_3 !V_3
+!NSW_3 !SA_3
+WA_0 WA_1 WA_2 WA_3
+!WA_0 !NT_0
+!WA_0 !SA_0
+!WA_1 !NT_1
+!WA_1 !SA_1
+!WA_2 !NT_2
+!WA_2 !SA_2
+!WA_3 !NT_3
+!WA_3 !SA_3
+NT_0 NT_1 NT_2 NT_3
+!NT_0 !SA_0
+!NT_0 !Q_0
+!NT_1 !SA_1
+!NT_1 !Q_1
+!NT_2 !SA_2
+!NT_2 !Q_2
+!NT_3 !SA_3
+!NT_3 !Q_3
+Q_0 Q_1 Q_2 Q_3
+!Q_0 !SA_0
+!Q_0 !NSW_0
+!Q_1 !SA_1
+!Q_1 !NSW_1
+!Q_2 !SA_2
+!Q_2 !NSW_2
+!Q_3 !SA_3
+!Q_3 !NSW_3
+SA_0 SA_1 SA_2 SA_3
+!SA_0 !WA_0
+!SA_0 !NT_0
+!SA_0 !Q_0
+!SA_0 !NSW_0
+!SA_0 !V_0
+!SA_1 !WA_1
+!SA_1 !NT_1
+!SA_1 !Q_1
+!SA_1 !NSW_1
+!SA_1 !V_1
+!SA_2 !WA_2
+!SA_2 !NT_2
+!SA_2 !Q_2
+!SA_2 !NSW_2
+!SA_2 !V_2
+!SA_3 !WA_3
+!SA_3 !NT_3
+!SA_3 !Q_3
+!SA_3 !NSW_3
+!SA_3 !V_3
+NSW_0 NSW_1 NSW_2 NSW_3
+!NSW_0 !V_0
+!NSW_0 !SA_0
+!NSW_1 !V_1
+!NSW_1 !SA_1
+!NSW_2 !V_2
+!NSW_2 !SA_2
+!NSW_3 !V_3
+!NSW_3 !SA_3
+T_0 T_1 T_2 T_3
+!T_0 !_0
+!T_1 !_1
+!T_2 !_2
+!T_3 !_3
