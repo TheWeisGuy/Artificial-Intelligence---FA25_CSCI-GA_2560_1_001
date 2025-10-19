@@ -141,7 +141,7 @@ public class GraphToBNF {
         }
     }
 
-    //main method for local debugging 
+    //main method for local debugging
     public static void main(String[] args) {
         GraphToBNF test = new GraphToBNF(2, "tiny.txt");
 

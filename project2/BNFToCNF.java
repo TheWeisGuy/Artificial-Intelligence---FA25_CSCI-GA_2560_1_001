@@ -133,6 +133,6 @@ public class BNFToCNF {
     }
 
     public static void main(String[] args) {
-        BNFToCNF converter = new BNFToCNF("tiny.txt.bnf2.dp", 2, "testOut.txt");
+        BNFToCNF converter = new BNFToCNF("tiny.txt.bnf2.dp", "testOut.txt");
     }
 }
