@@ -26,7 +26,7 @@ public class GraphToBNF {
     /**
      * Parses .txt file containing our graph
      * Outputs .out file containing the parsed CNF
-     * 
+     * @output file with the name: ${graphFileName}.txt.bnf${numColors}.dp
      * @param txtFile
      */
     public void parseFile(String txtFile) {
@@ -70,7 +70,7 @@ public class GraphToBNF {
                 expressions.add(vertex + " : []\n");
             }
 
-            String outputPath = txtFile + ".test" + this.numColors + ".dp";
+            String outputPath = txtFile + ".bnf" + this.numColors + ".dp";
             FileWriter writer = new FileWriter(outputPath);
 
             for (String current : expressions) {
@@ -144,7 +144,7 @@ public class GraphToBNF {
     }
 
     public static void main(String[] args) {
-        GraphToBNF test = new GraphToBNF(3, "triangle.txt");
+        GraphToBNF test = new GraphToBNF(2, "tiny.txt");
 
     }
 }
