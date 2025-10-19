@@ -3,27 +3,41 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.io.FileWriter;
 
+/*
+Parses the BNF generated from GraphToBNF to CNF
+Only works with the expressions generated from that, this is not a general BNF parser
+*/
 public class BNFToCNF {
-    private int numColors;
     private String outputName;
 
-    public BNFToCNF(String txtFile, int numColors, String outputName) {
-        this.numColors = numColors;
+    /**
+     * Constructor
+     * Parses the txtFile to the provided output
+     * 
+     * @param txtFile    Input BNF .txt file generated from GraphToBNF
+     * @param outputName
+     */
+    public BNFToCNF(String txtFile, String outputName) {
         this.outputName = outputName;
         this.parseBNF(txtFile);
     }
 
+    // If no output path provided, write to output.txt
     public BNFToCNF(String txtFile, int numColors) {
-        this.numColors = numColors;
         this.outputName = "output.txt";
         this.parseBNF(txtFile);
     }
 
+    // do not parse if no input file given
     public BNFToCNF(int numColors) {
-        this.numColors = numColors;
         this.outputName = "output.txt";
     }
 
+    /**
+     * Parses the BNF .txt file and outputs the converted CNF
+     * 
+     * @param txtFile
+     */
     public void parseBNF(String txtFile) {
         FileWriter writer;
         BufferedReader reader;
@@ -75,7 +89,7 @@ public class BNFToCNF {
             return cnf;
         }
 
-        // --- case 2: implication present ---
+        // case 2: implication like 1_0=>[2_0]
         String[] parts = bnf.split("=>", 2);
         if (parts.length < 2) {
             // malformed line
@@ -86,9 +100,9 @@ public class BNFToCNF {
         String left = parts[0].trim();
         String right = parts[1].trim();
 
-        // Handle ![B|C] or !B
+        // case 3: ![B|C] or !B
         if (right.startsWith("![")) {
-            // A => ![B|C] → (¬A ∨ ¬B) ∧ (¬A ∨ ¬C)
+            // A => ![B|C] → (!A | !B) ∧ (!A | !C)
             String inner = right.substring(2, right.length() - 1);
             for (String tok : inner.split("\\|")) {
                 String lit = tok.trim();
@@ -96,12 +110,12 @@ public class BNFToCNF {
             }
 
         } else if (right.startsWith("!")) {
-            // A => !B → (¬A ∨ ¬B)
+            // A => !B → (!A | !B)
             String lit = right.substring(1).trim();
             cnf.add("!" + left + " !" + lit);
 
         } else if (right.startsWith("[")) {
-            // A => [B|C] → (¬A ∨ B ∨ C)
+            // A => [B|C] → (!A | B | C)
             String inner = right.substring(1, right.length() - 1);
             StringBuilder clause = new StringBuilder();
             clause.append("!").append(left);
@@ -111,7 +125,7 @@ public class BNFToCNF {
             cnf.add(clause.toString());
 
         } else {
-            // A => B → (¬A ∨ B)
+            // A => B → (!A | B)
             cnf.add("!" + left + " " + right);
         }
 

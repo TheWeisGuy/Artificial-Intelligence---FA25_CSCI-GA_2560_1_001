@@ -82,7 +82,7 @@ public class GraphToBNF {
                 if (current.charAt(0) == '#') {
                     continue;
                 }
-                // Split the string so we get the vertex and its neighbors
+                // Split the string on the colon so we get the vertex and its neighbors
                 String[] currentLineSplit = current.trim().split("\\s*:\\s*", 2);
                 String currentVertex = currentLineSplit[0];
                 String neighbors = currentLineSplit[1];
@@ -114,7 +114,6 @@ public class GraphToBNF {
                         parsedExpressions.add(adjacentString + "]\n");
                     }
                 }
-                // Color(WA,R) =>¬[Color(WA,G) v Color(WA,B)]
                 // At most one color for each vertex
                 for (int i = 0; i < this.numColors; i++) {
                     String newCurrentVertexString = currentVertex + "_" + i + "=>![";
@@ -124,13 +123,12 @@ public class GraphToBNF {
                             if (j < numColors - 1 && (j + 1 != i || j + 1 < numColors - 1)) {
                                 newCurrentVertexString += "|";
                             }
-
                         }
                     }
                     parsedExpressions.add(newCurrentVertexString + "]\n");
                 }
 
-                // write parsed CNF to output file
+                // write parsed BNF to output file
                 for (String expression : parsedExpressions) {
                     writer.write(expression);
                 }
@@ -143,6 +141,7 @@ public class GraphToBNF {
         }
     }
 
+    //main method for local debugging 
     public static void main(String[] args) {
         GraphToBNF test = new GraphToBNF(2, "tiny.txt");
 
