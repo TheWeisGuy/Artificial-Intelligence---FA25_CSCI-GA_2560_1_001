@@ -12,24 +12,15 @@ public class BNFToCNF {
 
     /**
      * Constructor
-     * Parses the txtFile to the provided output
-     * 
      * @param txtFile    Input BNF .txt file generated from GraphToBNF
      * @param outputName
      */
-    public BNFToCNF(String txtFile, String outputName) {
+    public BNFToCNF(String outputName) {
         this.outputName = outputName;
-        this.parseBNF(txtFile);
     }
 
     // If no output path provided, write to output.txt
-    public BNFToCNF(String txtFile, int numColors) {
-        this.outputName = "output.txt";
-        this.parseBNF(txtFile);
-    }
-
-    // do not parse if no input file given
-    public BNFToCNF(int numColors) {
+    public BNFToCNF() {
         this.outputName = "output.txt";
     }
 
@@ -132,7 +123,9 @@ public class BNFToCNF {
         return cnf;
     }
 
+    //main method for local debugging
     public static void main(String[] args) {
-        BNFToCNF converter = new BNFToCNF("tiny.txt.bnf2.dp", "testOut.txt");
+        BNFToCNF converter = new BNFToCNF("testOut.txt");
+        converter.parseBNF("tiny.txt.bnf2.dp");
     }
 }

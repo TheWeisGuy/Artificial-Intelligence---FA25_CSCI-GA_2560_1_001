@@ -8,15 +8,9 @@ public class GraphToBNF {
     private int numColors;
 
     /**
-     * Constructor: If supplied with .txt file, parse automatically
-     * 
-     * @param txtFile
+     * Constructor
      * @param numColors number of colors to color the map
      */
-    public GraphToBNF(int numColors, String txtFile) {
-        this.numColors = numColors;
-        this.parseFile(txtFile);
-    }
 
     public GraphToBNF(int numColors) {
         this.numColors = numColors;
@@ -70,7 +64,7 @@ public class GraphToBNF {
                 expressions.add(vertex + " : []\n");
             }
 
-            String outputPath = txtFile + ".bnf" + this.numColors + ".dp";
+            String outputPath = txtFile + ".bnf." + this.numColors + ".dp";
             FileWriter writer = new FileWriter(outputPath);
 
             for (String current : expressions) {
@@ -143,7 +137,8 @@ public class GraphToBNF {
 
     //main method for local debugging
     public static void main(String[] args) {
-        GraphToBNF test = new GraphToBNF(2, "tiny.txt");
+        GraphToBNF test = new GraphToBNF(2);
+        test.parseFile("tiny.txt");
 
     }
 }
