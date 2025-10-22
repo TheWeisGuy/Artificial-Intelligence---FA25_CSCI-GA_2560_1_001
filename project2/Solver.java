@@ -87,7 +87,7 @@ public class Solver {
             colorsMap.put("3", "Yellow");
             for (String k : assignments) {
                 String[] splitK = k.split("_");
-                String color = splitK[1].split("\s")[0];
+                String color = splitK[1].split("\\s")[0];
                 writer.write(splitK[0] + " = " + colorsMap.get(color) + "\n");
             }
             writer.close();
