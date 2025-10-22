@@ -5,6 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Solver {
+    
+
+    /**
+     * Main method for parsing our graph and assigning colors
+     * @param args Usage: solver [-v] <ncolors> <input-file>
+     */
     public static void main(String[] args) {
         try {
 
@@ -57,7 +63,7 @@ public class Solver {
             List<List<String>> cnf;
             cnf = DPLLSolver.parseCNF(CNFFile);
             boolean result = solver.solve(cnf);
-            FileWriter writer = new FileWriter("answer.txt");
+            FileWriter writer = new FileWriter(inputPath+"."+nColors+".out");
             if (result == false) {
                 writer.write("No solution for " + nColors + " colors");
                 writer.close();
