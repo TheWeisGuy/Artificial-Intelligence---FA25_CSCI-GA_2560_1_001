@@ -1,6 +1,8 @@
 This was tested on Ubuntu 20.04.6 LTS
 JDK 11.0.27
 
+I used chatgpt mainly for the BNFToCnf, Solver, and DPLL solver files
+
 To compile, in the command line type: javac *.java
 To run, type: java Solver [-v] <ncolors> <input-file>
 
