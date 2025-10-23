@@ -9,19 +9,22 @@ Only works with the expressions generated from that, this is not a general BNF p
 */
 public class BNFToCNF {
     private String outputName;
-
+    private boolean verbose;
     /**
      * Constructor
      * @param txtFile    Input BNF .txt file generated from GraphToBNF
+     * @param verbose If verbose mode is enabled
      * @param outputName
      */
-    public BNFToCNF(String outputName) {
+    public BNFToCNF(String outputName, boolean verbose) {
         this.outputName = outputName;
+        this.verbose =verbose;
     }
 
     // If no output path provided, write to output.txt
-    public BNFToCNF() {
+    public BNFToCNF(boolean verbose) {
         this.outputName = "output.txt";
+        this.verbose = verbose;
     }
 
     /**
@@ -47,6 +50,9 @@ public class BNFToCNF {
                 ArrayList<String> parsed = toCNF(currentLine);
 
                 for (String expression : parsed) {
+                    if(this.verbose){
+                        System.out.println(expression);
+                    }
                     writer.write(expression + "\n");
                     ;
                 }
@@ -125,7 +131,7 @@ public class BNFToCNF {
 
     //main method for local debugging
     public static void main(String[] args) {
-        BNFToCNF converter = new BNFToCNF("testOut.txt");
+        BNFToCNF converter = new BNFToCNF("testOut.txt",true);
         converter.parseBNF("tiny.txt.bnf2.dp");
     }
 }

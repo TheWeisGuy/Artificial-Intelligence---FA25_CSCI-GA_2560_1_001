@@ -55,7 +55,7 @@ public class Solver {
             String bnfOutputPath = inputPath + ".bnf." + nColors + ".dp";
 
             String cnfOutputPath = inputPath + "." + nColors + ".dp";
-            BNFToCNF bnfToCNF = new BNFToCNF(cnfOutputPath);
+            BNFToCNF bnfToCNF = new BNFToCNF(cnfOutputPath,verbose);
             bnfToCNF.parseBNF(bnfOutputPath);
 
             File CNFFile = new File(cnfOutputPath);

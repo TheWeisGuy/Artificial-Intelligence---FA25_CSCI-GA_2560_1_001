@@ -9,6 +9,7 @@ public class GraphToBNF {
 
     /**
      * Constructor
+     * 
      * @param numColors number of colors to color the map
      */
 
@@ -20,6 +21,7 @@ public class GraphToBNF {
     /**
      * Parses .txt file containing our graph
      * Outputs .out file containing the parsed CNF
+     * 
      * @output file with the name: ${graphFileName}.txt.bnf${numColors}.dp
      * @param txtFile
      */
@@ -52,7 +54,9 @@ public class GraphToBNF {
                 neighbors = neighbors.replaceAll("[\\[\\]]", "");
                 String[] neighborsList = neighbors.split("\\s*,\\s*");
                 for (String vertex : neighborsList) {
-                    verticesSet.add(vertex);
+                    if (vertex != "") {
+                        verticesSet.add(vertex);
+                    }
                 }
                 expressions.add(currentLine);
                 currentLine = reader.readLine();
@@ -135,10 +139,10 @@ public class GraphToBNF {
         }
     }
 
-    //main method for local debugging
+    // main method for local debugging
     public static void main(String[] args) {
         GraphToBNF test = new GraphToBNF(2);
-        test.parseFile("tiny.txt");
+        test.parseFile("oz.txt");
 
     }
 }
