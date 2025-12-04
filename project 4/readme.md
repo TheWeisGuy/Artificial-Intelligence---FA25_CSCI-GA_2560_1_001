@@ -1,3 +1,6 @@
+This was tested on Windows using JDK 17
+Tested also on ubuntu using JDK 11
+
 To compile: javac *.java
 To run: java DiceLearning
 Flags:
