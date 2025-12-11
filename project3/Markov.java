@@ -245,6 +245,7 @@ public class Markov {
 
     /**
      * Builds the graph
+     * 
      * @param specs parsed input file
      * @return
      * @throws UserError
@@ -282,7 +283,10 @@ public class Markov {
         for (int i = 0; i < n; i++) {
             NodeSpec ns = specs.get(names[i]);
 
-            g.reward[i] = ns.reward == null ? 0.0 : ns.reward;
+            if (ns.reward == null) {
+                throw new UserError("Missing reward definition for node '" + ns.name + "'");
+            }
+            g.reward[i] = ns.reward;
 
             if (ns.edgeNames == null || ns.edgeNames.isEmpty()) {
                 // terminal
@@ -350,6 +354,10 @@ public class Markov {
                 throw new UserError("Node '" + ns.name
                         + "': probability list must have either 1 item (decision) or |edges| items (chance).");
             }
+            System.err.printf("%s: reward=%.1f edges=%s probs=%s%n",
+                    names[i], g.reward[i],
+                    Arrays.toString(g.edges[i]),
+                    Arrays.toString(g.probsRaw[i]));
         }
 
         return g;
@@ -371,6 +379,7 @@ public class Markov {
 
     /**
      * Perform value iterations on the graph
+     * 
      * @param g
      * @param pi
      * @param cfg
@@ -378,40 +387,118 @@ public class Markov {
      */
     static double[] valueIteration(Graph g, Policy pi, Config cfg) {
         int n = g.n;
-        double[] v = new double[n];
-        double[] vNext = new double[n];
-
-        // Precompute P under fixed policy
         double[][] P = buildTransitionUnderPolicy(g, pi);
 
-        Arrays.fill(v, 0.0);
-        for (int it = 0; it < cfg.iter; it++) {
-            double maxDelta = 0.0;
+        // Build linear system: (I - df * P) * V = reward
+        double[][] A = new double[n][n];
+        double[] b = new double[n];
 
-            for (int s = 0; s < n; s++) {
-                double cont = 0.0;
-                double[] row = P[s];
-                if (row != null) {
-                    for (int t = 0; t < n; t++) {
-                        double p = row[t];
-                        if (p != 0.0)
-                            cont += p * v[t];
-                    }
-                }
-                vNext[s] = g.reward[s] + cfg.df * cont;
+        for (int i = 0; i < n; i++) {
+            b[i] = g.reward[i];
+            for (int j = 0; j < n; j++) {
+                double pij = P[i][j];
+                A[i][j] = (i == j ? 1.0 : 0.0) - cfg.df * pij;
             }
-
-            for (int s = 0; s < n; s++) {
-                double d = Math.abs(vNext[s] - v[s]);
-                if (d > maxDelta)
-                    maxDelta = d;
-                v[s] = vNext[s];
-            }
-
-            if (maxDelta < cfg.tol)
-                break;
         }
-        return v;
+
+        System.err.println("df = " + cfg.df);
+        int idxA = -1, idxQ = -1, idxB = -1;
+        for (int i = 0; i < n; i++) {
+            if (g.names[i].equals("A"))
+                idxA = i;
+            if (g.names[i].equals("Q"))
+                idxQ = i;
+            if (g.names[i].equals("B"))
+                idxB = i;
+        }
+        System.err.println("Row A of (I - df P): " + Arrays.toString(A[idxA]));
+        System.err.println("b[A] (reward A): " + b[idxA]);
+        System.err.println("Row B of (I - df P): " + Arrays.toString(A[idxB]));
+        System.err.println("b[B] (reward B): " + b[idxB]);
+        // Solve A * x = b via Gaussian elimination with partial pivoting
+        double[] x = gaussianSolve(A, b);
+        System.err.println("Residuals (A x - b):");
+        for (int i = 0; i < n; i++) {
+            double lhs = 0.0;
+            for (int j = 0; j < n; j++) {
+                lhs += A[i][j] * x[j];
+            }
+            double r_i = lhs - b[i];
+            System.err.printf("  %s : %.6f%n", g.names[i], r_i);
+        }
+        return x;
+    }
+
+    // Solve A x = b for a dense n x n matrix A using Gaussian elimination
+    static double[] gaussianSolve(double[][] A, double[] b) {
+        int n = A.length;
+        double[][] a = new double[n][n];
+        double[] x = new double[n];
+        double[] rhs = new double[n];
+
+        // Copy inputs to avoid mutating original arrays
+        for (int i = 0; i < n; i++) {
+            rhs[i] = b[i];
+            System.arraycopy(A[i], 0, a[i], 0, n);
+        }
+
+        // Forward elimination with partial pivoting
+        for (int k = 0; k < n; k++) {
+            // Find pivot row
+            int pivot = k;
+            double maxAbs = Math.abs(a[k][k]);
+            for (int i = k + 1; i < n; i++) {
+                double val = Math.abs(a[i][k]);
+                if (val > maxAbs) {
+                    maxAbs = val;
+                    pivot = i;
+                }
+            }
+
+            // Swap rows if needed
+            if (pivot != k) {
+                double[] tmpRow = a[k];
+                a[k] = a[pivot];
+                a[pivot] = tmpRow;
+
+                double tmpVal = rhs[k];
+                rhs[k] = rhs[pivot];
+                rhs[pivot] = tmpVal;
+            }
+
+            double pivotVal = a[k][k];
+            if (Math.abs(pivotVal) < 1e-12) {
+                throw new RuntimeException("Singular matrix in gaussianSolve");
+            }
+
+            // Normalize pivot row
+            for (int j = k; j < n; j++) {
+                a[k][j] /= pivotVal;
+            }
+            rhs[k] /= pivotVal;
+
+            // Eliminate below
+            for (int i = k + 1; i < n; i++) {
+                double factor = a[i][k];
+                if (factor == 0.0)
+                    continue;
+                for (int j = k; j < n; j++) {
+                    a[i][j] -= factor * a[k][j];
+                }
+                rhs[i] -= factor * rhs[k];
+            }
+        }
+
+        // Back substitution
+        for (int i = n - 1; i >= 0; i--) {
+            double sum = rhs[i];
+            for (int j = i + 1; j < n; j++) {
+                sum -= a[i][j] * x[j];
+            }
+            x[i] = sum;
+        }
+
+        return x;
     }
 
     static double[][] buildTransitionUnderPolicy(Graph g, Policy pi) {
@@ -437,7 +524,7 @@ public class Markov {
             if (g.isChance[s]) {
                 double[] probs = g.probsRaw[s];
                 for (int k = 0; k < outs.length; k++) {
-                    P[s][outs[k]] = probs[k];
+                    P[s][outs[k]] += probs[k];
                 }
             } else if (g.isDecision[s]) {
                 int a = pi.actionIndex[s];
